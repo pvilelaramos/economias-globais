@@ -1,24 +1,9 @@
+BIS juros de política...
+BIS inflação ao consumidor...
 FMI NGDP_RPCH...
-  tentativa 1/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-  tentativa 2/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-  tentativa 3/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-  tentativa 4/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-  tentativa 5/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-  tentativa 6/6 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
-Traceback (most recent call last):
-  File "/home/runner/work/economias-globais/economias-globais/src/atualizar.py", line 60, in <module>
-    main()
-  File "/home/runner/work/economias-globais/economias-globais/src/atualizar.py", line 44, in main
-    anual, mensal = carregar(args.offline)
-                    ^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/economias-globais/economias-globais/src/atualizar.py", line 30, in carregar
-    func().to_csv(arq, index=False, float_format="%.4f")
-    ^^^^^^
-  File "/home/runner/work/economias-globais/economias-globais/src/coleta.py", line 55, in baixar_fmi
-    df = ler_fmi(_get(URL_FMI.format(indicador=indicador, paises=codigos)).json(), indicador)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/economias-globais/economias-globais/src/coleta.py", line 24, in _get
-    r.raise_for_status()
-  File "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/requests/models.py", line 1167, in raise_for_status
-    raise HTTPError(http_error_msg, response=self)
-requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
+  tentativa 1/2 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
+  tentativa 2/2 falhou: 403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EURO/DEU/GBR/JPN/CAN/AUS/KOR/CHN/IND/BRA/MEX/CHL/ARG
+API do FMI indisponível (403 Client Error: Forbidden for url: https://www.imf.org/external/datamapper/api/v1/NGDP_RPCH/USA/EU); usando DBnomics.
+DBnomics WEO (países)...
+DBnomics WEO (Zona do Euro)...
+Pronto: 14 países (FMI), 14 países (BIS).
