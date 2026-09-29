@@ -57,11 +57,18 @@ def juros_inflacao(mensal: pd.DataFrame, destino: Path, inicio: str = "2015-01")
         ax.axhline(0, color=TEXTO_2, lw=0.8)
         ax.set_title(pais, fontsize=11)
         ax.tick_params(labelsize=8)
-        for col, cor in (("juros", AZUL), ("inflacao_12m", LARANJA)):
-            v = s[col].dropna()
-            if len(v):
-                ax.annotate(f"{v.iloc[-1]:.1f}", (v.index[-1], v.iloc[-1]), xytext=(4, 0),
-                            textcoords="offset points", fontsize=8, color=TEXTO, va="center")
+        ultimos = {c: s[c].dropna() for c in ("juros", "inflacao_12m")}
+        ultimos = {c: v for c, v in ultimos.items() if len(v)}
+        # Afasta os rótulos quando os dois últimos valores estão próximos
+        desloc = {c: 0 for c in ultimos}
+        if len(ultimos) == 2:
+            j, i = ultimos["juros"].iloc[-1], ultimos["inflacao_12m"].iloc[-1]
+            faixa = max(s[["juros", "inflacao_12m"]].max().max() - s[["juros", "inflacao_12m"]].min().min(), 1e-9)
+            if abs(j - i) / faixa < 0.08:
+                desloc = {"juros": 6 if j >= i else -6, "inflacao_12m": -6 if j >= i else 6}
+        for col, v in ultimos.items():
+            ax.annotate(f"{v.iloc[-1]:.1f}", (v.index[-1], v.iloc[-1]), xytext=(4, desloc[col]),
+                        textcoords="offset points", fontsize=8, color=TEXTO, va="center")
     for ax in eixos[len(paises):]:
         ax.set_visible(False)
     alcas, rotulos = eixos[0].get_legend_handles_labels()
