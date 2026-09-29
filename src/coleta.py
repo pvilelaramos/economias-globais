@@ -132,6 +132,9 @@ def baixar_mensal() -> pd.DataFrame:
     """Juros de política (WS_CBPOL) e inflação em 12 meses (WS_LONG_CPI, unidade 771)."""
     print("BIS juros de política...", flush=True)
     juros = baixar_bis("WS_CBPOL").rename(columns={"valor": "juros"})
+    # A Alemanha não tem juros próprios: usa a taxa do BCE (Zona do Euro)
+    bce = juros[juros["pais"] == "Zona do Euro"].assign(pais="Alemanha")
+    juros = pd.concat([juros[juros["pais"] != "Alemanha"], bce], ignore_index=True)
     print("BIS inflação ao consumidor...", flush=True)
     cpi = baixar_bis("WS_LONG_CPI", ".771").rename(columns={"valor": "inflacao_12m"})
     base = juros.merge(cpi, on=["pais", "data"], how="outer").sort_values(["pais", "data"])
