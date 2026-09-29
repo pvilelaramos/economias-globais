@@ -51,3 +51,14 @@ def test_tabela_no_readme(tmp_path):
     texto = readme.read_text(encoding="utf-8")
     assert "velho" not in texto and "antes" in texto and "depois" in texto
     assert "| **Brasil** | 2,0 | 2,2 |" in texto
+
+
+def test_ler_dbnomics():
+    resposta = {"series": {"docs": [
+        {"series_code": "BRA.NGDP_RPCH.pcent_change", "period": ["2025", "2026"], "value": [2.3, "NA"]},
+        {"series_code": "163.GGXWDG_NGDP.pcent_gdp", "period": ["2025"], "value": [88.0]},
+        {"series_code": "BRA.XXXX.units", "period": ["2025"], "value": [1.0]},
+    ]}}
+    df = coleta.ler_dbnomics(resposta)
+    assert len(df) == 2
+    assert df[df.pais == "Zona do Euro"]["indicador"].item() == "divida"

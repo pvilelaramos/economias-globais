@@ -25,7 +25,7 @@ MENSAL = RAIZ / "data" / "processado" / "bis_mensal.csv"
 def carregar(offline: bool) -> tuple[pd.DataFrame, pd.DataFrame]:
     ANUAL.parent.mkdir(parents=True, exist_ok=True)
     if not offline:
-        for nome, func, arq in (("FMI", coleta.baixar_fmi, ANUAL), ("BIS", coleta.baixar_mensal, MENSAL)):
+        for nome, func, arq in (("BIS", coleta.baixar_mensal, MENSAL), ("FMI", coleta.baixar_fmi, ANUAL)):
             try:
                 func().to_csv(arq, index=False, float_format="%.4f")
             except Exception as erro:  # noqa: BLE001
