@@ -6,6 +6,7 @@
 <title>Economias globais</title>
 <meta name="description" content="Painel comparativo das principais economias do mundo: crescimento, inflação, juros, desemprego, contas externas e fiscais.">
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script>window.Plotly || document.write('<script src="https://unpkg.com/plotly.js-dist-min@2.35.2/plotly.min.js"><\/script>');</script>
 <style>
   :root {
     color-scheme: light;
@@ -261,13 +262,18 @@ document.querySelectorAll(".tab").forEach((t) => t.onclick = () => {
 document.getElementById("indicador").onchange = (e) => { estado.indicador = e.target.value; desenha(); };
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", desenha);
 
-fetch("dados.json").then((r) => r.json()).then((dados) => {
+function avisa(msg) {
+  document.getElementById("linha").innerHTML = `<p style="color:var(--muted);padding:24px">${msg}</p>`;
+}
+if (!window.Plotly) avisa("Não foi possível carregar a biblioteca de gráficos (Plotly). Verifique a conexão ou um bloqueador de conteúdo e recarregue a página.");
+fetch("dados.json", { cache: "no-cache" }).then((r) => r.json()).then((dados) => {
   D = dados;
   const [a, m, d] = D.atualizado.split("-");
   document.getElementById("atualizado").textContent = `Atualizado em ${d}/${m}/${a}.`;
   PADRAO.forEach((p, i) => estado.cores.set(p, i));
-  preencheAnos(); preencheControles(); desenha();
-});
+  preencheAnos(); preencheControles();
+  try { desenha(); } catch (e) { console.error(e); avisa("Erro ao desenhar os gráficos: " + e.message); }
+}).catch((e) => { console.error(e); avisa("Não foi possível carregar os dados (dados.json): " + e.message); });
 </script>
 </body>
 </html>
